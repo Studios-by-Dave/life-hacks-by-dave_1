@@ -1,0 +1,382 @@
+---
+/**
+ * Signature artwork for each world.
+ *
+ * Decorative only: `aria-hidden`, pointer-inert and always layered behind
+ * content by `.world__art { z-index: -1 }`. Artwork is original SVG so the
+ * page ships no large textures and no third-party imagery.
+ */
+import type { WorldKey } from '../../config/worlds';
+
+interface Props {
+  world: WorldKey;
+  class?: string;
+}
+
+const { world, class: className = '' } = Astro.props;
+const uid = `${world}-${Math.random().toString(36).slice(2, 8)}`;
+
+const stars = [
+  [90, 120, 1.2], [180, 300, 0.9], [260, 90, 1.6], [340, 220, 0.8], [420, 150, 1.1],
+  [510, 320, 1.3], [590, 70, 0.9], [660, 250, 1.5], [740, 130, 0.8], [820, 300, 1.2],
+  [900, 90, 1.0], [980, 210, 1.4], [1060, 140, 0.9], [1140, 300, 1.1], [1230, 100, 1.3],
+  [1320, 240, 0.9], [1390, 160, 1.2], [130, 430, 1.0], [300, 520, 1.4], [450, 460, 0.8],
+  [620, 560, 1.1], [780, 480, 1.5], [940, 540, 0.9], [1100, 450, 1.2], [1270, 560, 1.0],
+  [60, 680, 1.3], [240, 760, 0.9], [400, 700, 1.1], [560, 820, 1.4], [720, 720, 0.8],
+  [880, 800, 1.2], [1040, 700, 1.0], [1200, 820, 1.3], [1360, 740, 0.9],
+] as const;
+
+const sprigs = [
+  [140, 780, -18, 0.9], [430, 830, 8, 1.05], [760, 790, -8, 0.85],
+  [1080, 840, 16, 1.1], [1330, 770, -12, 0.9], [300, 250, 22, 0.7],
+  [900, 220, -24, 0.65],
+] as const;
+---
+
+<div class:list={['world__art', className]} aria-hidden="true">
+  {
+    world === 'atlas' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        {/* graticule */}
+        <g stroke="#6b4f2a" stroke-opacity="0.13" stroke-width="1">
+          <path d="M160 0V900M320 0V900M480 0V900M640 0V900M800 0V900M960 0V900M1120 0V900M1280 0V900" />
+          <path d="M0 150H1440M0 300H1440M0 450H1440M0 600H1440M0 750H1440" />
+        </g>
+
+        {/* topographic contours */}
+        <g fill="none" stroke="#5d451f" stroke-opacity="0.28" stroke-width="1.3">
+          <path d="M-40 250C180 170 340 330 560 290S980 120 1240 210s340 40 300 20" />
+          <path d="M-40 300C180 220 350 380 570 340S990 170 1250 260s340 40 300 20" />
+          <path d="M-40 360C200 280 360 440 590 400S1010 230 1270 320s320 30 290 10" />
+          <path d="M-40 640C220 560 420 720 660 670S1060 520 1300 600s300 60 260 30" />
+          <path d="M-40 700C220 620 430 780 670 730S1070 580 1310 660s300 60 260 30" />
+          <path d="M120 40C240 140 200 300 320 380s260 60 340 190" />
+          <path d="M980 30c60 120 20 240 130 330s250 70 320 200" />
+        </g>
+
+        {/* faded coastline */}
+        <path
+          d="M980 470c60-30 140-10 190 40s120 60 190 30 110-90 110-90v260c-90 30-160-10-230-50s-140-20-210 30-110 30-150-20-30-200 0-200z"
+          fill="#c9b78f"
+          fill-opacity="0.4"
+          stroke="#5d451f"
+          stroke-opacity="0.3"
+        />
+
+        {/* compass rose */}
+        <g transform="translate(1200 700)" opacity="0.55">
+          <circle r="96" fill="none" stroke="#5d451f" stroke-opacity="0.5" />
+          <circle r="78" fill="none" stroke="#5d451f" stroke-opacity="0.35" stroke-dasharray="2 8" />
+          <path
+            d="M0-92 12-14 92 0 12 14 0 92-12 14-92 0-12-14z"
+            fill="none"
+            stroke="#5d451f"
+            stroke-opacity="0.55"
+          />
+          <path d="M0-64 8-8 64 0 8 8 0 64-8 8-64 0-8-8z" fill="#8a6a3a" fill-opacity="0.5" />
+          <path d="M-64-64 64 64M64-64-64 64" stroke="#5d451f" stroke-opacity="0.3" />
+          <text
+            x="0"
+            y="-104"
+            text-anchor="middle"
+            font-family="Georgia, serif"
+            font-size="20"
+            fill="#5d451f"
+            fill-opacity="0.75"
+          >
+            N
+          </text>
+        </g>
+
+        {/* rhumb lines */}
+        <g stroke="#5d451f" stroke-opacity="0.16" stroke-dasharray="6 10">
+          <path d="M1200 700 200 120M1200 700 60 640M1200 700 760 40M1200 700 1400 120" />
+        </g>
+
+        <text
+          x="72"
+          y="836"
+          font-family="Georgia, serif"
+          font-size="26"
+          letter-spacing="10"
+          fill="#5d451f"
+          fill-opacity="0.35"
+        >
+          PLATE I
+        </text>
+      </svg>
+    )
+  }
+
+  {
+    world === 'celestial' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <radialGradient id={`${uid}-glow`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#b79a60" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#b79a60" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* orbital ellipses */}
+        <g fill="none" stroke="#b79a60" stroke-opacity="0.22">
+          <ellipse cx="720" cy="450" rx="560" ry="200" transform="rotate(-16 720 450)" />
+          <ellipse
+            cx="720"
+            cy="450"
+            rx="420"
+            ry="150"
+            transform="rotate(14 720 450)"
+            stroke-dasharray="4 12"
+          />
+          <circle cx="720" cy="450" r="300" stroke-opacity="0.12" />
+        </g>
+
+        {/* star field */}
+        <g fill="#f6f0e4">
+          {stars.map(([cx, cy, r]) => (
+            <circle cx={cx} cy={cy} r={r} opacity={r > 1.2 ? 0.85 : 0.5} />
+          ))}
+        </g>
+
+        {/* constellation */}
+        <g stroke="#d9c088" stroke-opacity="0.55" fill="none" stroke-width="1">
+          <path d="M260 90 420 150 510 320 660 250 740 130 900 90" />
+          <path d="M980 210 1140 300 1230 100" />
+        </g>
+        <g fill="#d9c088">
+          <circle cx="260" cy="90" r="3.4" />
+          <circle cx="420" cy="150" r="2.6" />
+          <circle cx="510" cy="320" r="3" />
+          <circle cx="660" cy="250" r="2.4" />
+          <circle cx="740" cy="130" r="3.2" />
+          <circle cx="900" cy="90" r="2.6" />
+          <circle cx="980" cy="210" r="2.8" />
+          <circle cx="1140" cy="300" r="2.4" />
+          <circle cx="1230" cy="100" r="3.2" />
+        </g>
+
+        {/* radiant star */}
+        <g transform="translate(1150 620)">
+          <circle r="70" fill={`url(#${uid}-glow)`} />
+          <path
+            d="M0-34 6-6 34 0 6 6 0 34-6 6-34 0-6-6z"
+            fill="#e4cf9c"
+            opacity="0.9"
+          />
+        </g>
+
+        {/* meridian ticks */}
+        <g stroke="#f6f0e4" stroke-opacity="0.14">
+          <path d="M0 450H1440" stroke-dasharray="1 14" />
+          <path d="M720 0V900" stroke-dasharray="1 14" />
+        </g>
+      </svg>
+    )
+  }
+
+  {
+    world === 'ether' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <radialGradient id={`${uid}-a`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#6d63b8" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#6d63b8" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id={`${uid}-b`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#c9a86a" stop-opacity="0.32" />
+            <stop offset="100%" stop-color="#c9a86a" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id={`${uid}-c`} x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#9aa6c0" stop-opacity="0" />
+            <stop offset="50%" stop-color="#9aa6c0" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#9aa6c0" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="380" cy="260" rx="440" ry="300" fill={`url(#${uid}-a)`} />
+        <ellipse cx="1120" cy="620" rx="420" ry="280" fill={`url(#${uid}-b)`} />
+        <ellipse cx="820" cy="120" rx="360" ry="200" fill={`url(#${uid}-a)`} opacity="0.6" />
+
+        {/* delicate geometry */}
+        <g fill="none" stroke="#c7cde0" stroke-opacity="0.2" stroke-width="1">
+          <circle cx="720" cy="450" r="330" />
+          <circle cx="720" cy="450" r="240" stroke-dasharray="3 10" />
+          <path d="M390 450H1050M720 120V780" />
+          <path d="M487 217 953 683M953 217 487 683" stroke-opacity="0.12" />
+          <path d="M720 120 1050 450 720 780 390 450z" stroke-opacity="0.16" />
+        </g>
+
+        {/* flowing form */}
+        <path
+          d="M-40 520c220-140 380 90 620-40s420-230 660-90 300 60 300 60"
+          fill="none"
+          stroke={`url(#${uid}-c)`}
+          stroke-width="1.6"
+        />
+        <path
+          d="M-40 580c240-120 400 110 640-20s400-210 640-70 280 70 280 70"
+          fill="none"
+          stroke={`url(#${uid}-c)`}
+          stroke-width="1"
+          opacity="0.6"
+        />
+      </svg>
+    )
+  }
+
+  {
+    world === 'sacred' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <linearGradient id={`${uid}-ray`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f6f0e4" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#f6f0e4" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id={`${uid}-cloud`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#dfe7f7" stop-opacity="0.4" />
+            <stop offset="100%" stop-color="#dfe7f7" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* heavenly light */}
+        <g fill={`url(#${uid}-ray)`}>
+          <path d="M660 0 340 900H470L700 0z" />
+          <path d="M760 0 560 900H660L800 0z" opacity="0.75" />
+          <path d="M840 0 780 900H900L940 0z" opacity="0.55" />
+        </g>
+
+        {/* cloud forms */}
+        <ellipse cx="300" cy="180" rx="320" ry="120" fill={`url(#${uid}-cloud)`} />
+        <ellipse cx="1180" cy="240" rx="300" ry="110" fill={`url(#${uid}-cloud)`} />
+
+        {/* cathedral arcade */}
+        <g fill="none" stroke="#f6f0e4" stroke-opacity="0.22" stroke-width="1.4">
+          <path d="M120 900V520a100 100 0 0 1 200 0v380" />
+          <path d="M420 900V520a100 100 0 0 1 200 0v380" />
+          <path d="M720 900V520a100 100 0 0 1 200 0v380" />
+          <path d="M1020 900V520a100 100 0 0 1 200 0v380" />
+          <path d="M1320 900V520a100 100 0 0 1 200 0v380" />
+        </g>
+        <g fill="none" stroke="#b79a60" stroke-opacity="0.4" stroke-width="1">
+          <path d="M60 520H1400" />
+          <path d="M60 470H1400" stroke-dasharray="4 12" />
+          <path d="M220 420c0-70 200-70 200 0M520 420c0-70 200-70 200 0M820 420c0-70 200-70 200 0" />
+        </g>
+
+        {/* rose window */}
+        <g transform="translate(1240 170)" opacity="0.5">
+          <circle r="72" fill="none" stroke="#f6f0e4" stroke-opacity="0.45" />
+          <circle r="44" fill="none" stroke="#b79a60" stroke-opacity="0.7" />
+          <g stroke="#f6f0e4" stroke-opacity="0.35">
+            <path d="M-72 0H72M0-72V72M-51-51 51 51M51-51-51 51" />
+          </g>
+        </g>
+      </svg>
+    )
+  }
+
+  {
+    world === 'botanical' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <g id={`${uid}-sprig`}>
+            <path
+              d="M0 0C4-40 6-90 2-150"
+              fill="none"
+              stroke="#4f6046"
+              stroke-width="1.6"
+              stroke-opacity="0.6"
+            />
+            <path
+              d="M2-40c-26-6-40-24-42-46 24-2 40 14 44 40zM3-78c26-8 38-28 38-50-24 0-38 18-40 44zM2-116c-24-8-34-26-32-46 22 2 34 20 34 44z"
+              fill="#65765a"
+              fill-opacity="0.35"
+              stroke="#4f6046"
+              stroke-opacity="0.45"
+            />
+            <circle cx="2" cy="-152" r="5" fill="#8a6a3a" fill-opacity="0.5" />
+          </g>
+          <pattern
+            id={`${uid}-rule`}
+            width="60"
+            height="46"
+            patternUnits="userSpaceOnUse"
+          >
+            <path d="M0 45.5H60" stroke="#65765a" stroke-opacity="0.16" />
+          </pattern>
+        </defs>
+
+        <rect width="1440" height="900" fill={`url(#${uid}-rule)`} />
+
+        <g>
+          {sprigs.map(([x, y, rot, scale]) => (
+            <use
+              href={`#${uid}-sprig`}
+              transform={`translate(${x} ${y}) rotate(${rot}) scale(${scale})`}
+            />
+          ))}
+        </g>
+
+        {/* annotation marginalia */}
+        <g stroke="#8a6a3a" stroke-opacity="0.4" fill="none">
+          <path d="M1140 340h180M1140 372h120M1140 404h150" stroke-dasharray="3 7" />
+          <circle cx="1120" cy="340" r="6" />
+          <path d="M120 300h160M120 332h96" stroke-dasharray="3 7" />
+        </g>
+      </svg>
+    )
+  }
+
+  {
+    world === 'modern' && (
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <pattern id={`${uid}-grid`} width="56" height="56" patternUnits="userSpaceOnUse">
+            <path d="M56 0H0V56" fill="none" stroke="#f6f0e4" stroke-opacity="0.06" />
+          </pattern>
+        </defs>
+
+        <rect width="1440" height="900" fill={`url(#${uid}-grid)`} />
+
+        {/* schematic — kept clear of the left-hand text column */}
+        <g fill="none" stroke="#a86b45" stroke-opacity="0.45" stroke-width="1.2">
+          <rect x="940" y="150" width="330" height="160" rx="3" />
+          <rect x="1120" y="400" width="250" height="140" rx="3" />
+          <path
+            d="M1105 310v90M940 230H820M1245 540v70h-180"
+            stroke-dasharray="6 8"
+            stroke-opacity="0.35"
+          />
+          <path d="M1180 150V96h-140" stroke-dasharray="6 8" stroke-opacity="0.35" />
+          <path d="M180 690h280M180 726h190M180 762h240" stroke-opacity="0.28" />
+        </g>
+
+        <g fill="#a86b45" fill-opacity="0.85">
+          <circle cx="1105" cy="310" r="4" />
+          <circle cx="940" cy="230" r="4" />
+          <circle cx="1245" cy="540" r="4" />
+          <circle cx="1040" cy="96" r="4" />
+        </g>
+
+        {/* measurement scale */}
+        <g stroke="#f6f0e4" stroke-opacity="0.2">
+          <path d="M0 838H1440" />
+          <path d="M80 830v16M240 830v16M400 830v16M560 830v16M720 830v16M880 830v16M1040 830v16M1200 830v16M1360 830v16" />
+        </g>
+
+        <text
+          x="1044"
+          y="88"
+          font-family="ui-monospace, monospace"
+          font-size="18"
+          letter-spacing="6"
+          fill="#a86b45"
+          fill-opacity="0.55"
+        >
+          FIG. 01 — ENVIRONMENT
+        </text>
+      </svg>
+    )
+  }
+</div>

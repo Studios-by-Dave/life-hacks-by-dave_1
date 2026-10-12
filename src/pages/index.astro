@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorldBackdrop from '../components/art/WorldBackdrop.astro';
+import SiteIcon from '../components/site/SiteIcon.astro';
+import BrandMark from '../components/site/BrandMark.astro';
+import { site } from '../config/site';
+import { pillars } from '../config/pillars';
+import { worlds } from '../config/worlds';
+
+const topicCount = pillars.reduce((sum, pillar) => sum + pillar.topics.length, 0);
+
+const principles = [
+  {
+    icon: 'microscope',
+    title: 'Test what you are told',
+    body: 'Measurements, trials and long-running personal experiments come first. A claim earns its place here only after it has been checked against the record.',
+  },
+  {
+    icon: 'feather',
+    title: 'Label the uncertain honestly',
+    body: 'Personal interpretation, tradition and established science are marked as what they are. Speculation is never dressed up as settled fact.',
+  },
+  {
+    icon: 'compass',
+    title: 'Leave a map for others',
+    body: 'Every entry is written so another person can repeat the work, avoid the dead ends and carry it further than one lifetime allows.',
+  },
+] as const;
+
+const method = [
+  {
+    step: 'I',
+    icon: 'feather',
+    title: 'Field notes',
+    body: 'Observations are written down as they happen — dates, conditions, what was tried and what actually occurred.',
+  },
+  {
+    step: 'II',
+    icon: 'microscope',
+    title: 'Research & measurement',
+    body: 'Notes are checked against sources, meters, controls and the work of others before anything is drawn from them.',
+  },
+  {
+    step: 'III',
+    icon: 'scroll',
+    title: 'A published entry',
+    body: 'The result becomes a durable page inside its pillar — linked, dated and open to revision as understanding grows.',
+  },
+] as const;
+---
+
+<BaseLayout
+  world="celestial"
+  title="A Living Library of Discovery, Natural Living & Faith"
+  description={site.description}
+>
+  <!-- ============================================================
+       HERO — The Celestial Observatory
+  ============================================================ -->
+  <section class="relative overflow-hidden">
+    <div class="shell grid items-center gap-14 pb-24 pt-16 md:pt-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 lg:pb-32">
+      <div>
+        <p class="eyebrow">Field notes · gathered over a lifetime</p>
+
+        <h1 class="mt-7 font-display text-[clamp(3rem,9vw,6.5rem)] font-semibold leading-[0.94] tracking-tight text-ivory">
+          Life Hacks
+          <span class="block italic text-gold-bright">by Dave</span>
+        </h1>
+
+        <div class="rule-gold mt-8 max-w-md"></div>
+
+        <p class="mt-8 max-w-xl text-[1.05rem] leading-relaxed text-ivory/80 md:text-[1.15rem]">
+          {site.mission}
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a class="btn btn--solid" href="#pillars">
+            Enter the six pillars
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn--ghost" href="#mission">Why this library exists</a>
+        </div>
+
+        <dl class="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-gold/25 pt-7">
+          <div>
+            <dt class="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-ivory/50">
+              Pillars
+            </dt>
+            <dd class="mt-1 font-display text-4xl font-semibold text-gold-bright">
+              {pillars.length}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-ivory/50">
+              Topic clusters
+            </dt>
+            <dd class="mt-1 font-display text-4xl font-semibold text-gold-bright">
+              {topicCount}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-ivory/50">
+              Worlds
+            </dt>
+            <dd class="mt-1 font-display text-4xl font-semibold text-gold-bright">6</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Observatory plate -->
+      <aside class="panel relative rounded-sm p-7 md:p-9" aria-label="Founder's note">
+        <span
+          class="absolute -top-3 left-7 bg-ink px-3 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-gold-bright"
+        >
+          Plate B · Celestial
+        </span>
+
+        <svg viewBox="0 0 320 170" class="w-full" aria-hidden="true">
+          <g stroke="#b79a60" stroke-opacity="0.45" fill="none">
+            <ellipse cx="160" cy="85" rx="140" ry="52" transform="rotate(-14 160 85)" />
+            <ellipse cx="160" cy="85" rx="96" ry="34" transform="rotate(12 160 85)"
+              stroke-dasharray="3 9"></ellipse>
+          </g>
+          <g fill="#f6f0e4">
+            <circle cx="48" cy="42" r="1.6" opacity="0.85"></circle>
+            <circle cx="96" cy="118" r="1.2" opacity="0.6"></circle>
+            <circle cx="150" cy="30" r="1.4" opacity="0.7"></circle>
+            <circle cx="214" cy="140" r="1.3" opacity="0.65"></circle>
+            <circle cx="268" cy="56" r="1.7" opacity="0.85"></circle>
+            <circle cx="300" cy="112" r="1.1" opacity="0.55"></circle>
+          </g>
+          <g stroke="#d9c088" stroke-opacity="0.7" fill="none">
+            <path d="M48 42 150 30 214 140 268 56"></path>
+          </g>
+          <g fill="#d9c088">
+            <circle cx="48" cy="42" r="3.2"></circle>
+            <circle cx="150" cy="30" r="2.6"></circle>
+            <circle cx="214" cy="140" r="2.8"></circle>
+            <circle cx="268" cy="56" r="3.4"></circle>
+          </g>
+          <path
+            d="M160 62 164 81 183 85 164 89 160 108 156 89 137 85 156 81z"
+            fill="#e4cf9c"
+            opacity="0.95"></path>
+        </svg>
+
+        <blockquote class="mt-6 font-display text-[1.45rem] italic leading-snug text-parchment">
+          “Record what you find. Test what you are told. Leave a map for the next
+          person.”
+        </blockquote>
+        <figcaption class="mt-4 flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.24em] text-gold-bright">
+          <BrandMark size={26} />
+          {site.founder} · Founder &amp; Field Researcher
+        </figcaption>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MISSION — World A: The Ancient Atlas
+  ============================================================ -->
+  <section id="mission" class="world world--atlas grain relative scroll-mt-24 overflow-hidden">
+    <WorldBackdrop world="atlas" />
+    <div class="shell relative z-10 py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow" style="color:#7a5a26">The mission</p>
+        <h2 class="mt-6 text-[clamp(2.1rem,5vw,3.6rem)] text-[#2a2418]">
+          A library built to be used, not merely admired.
+        </h2>
+        <p class="mt-6 max-w-2xl text-[1.06rem] leading-relaxed text-[#3d3423]">
+          {site.mission}
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        {
+          principles.map((item) => (
+            <article class="panel--paper rounded-sm p-7">
+              <span class="inline-flex items-center justify-center rounded-full border border-[#7a6437]/40 bg-white/50 p-3 text-[#7a5a26]">
+                <SiteIcon name={item.icon} size={20} />
+              </span>
+              <h3 class="mt-5 text-[1.5rem] text-[#2a2418]">{item.title}</h3>
+              <div class="mt-3 h-px w-14 bg-[#7a6437]/50" />
+              <p class="mt-4 text-[0.95rem] leading-relaxed text-[#4a4130]">{item.body}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="mt-10 font-display text-lg italic text-[#5b513c]">
+        — {site.founder}, writing from the workshop and the yard
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SIX PILLARS
+  ============================================================ -->
+  <section id="pillars" class="relative scroll-mt-24 bg-ink py-20 md:py-28">
+    <div class="shell">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="max-w-2xl">
+          <p class="eyebrow">The index of worlds</p>
+          <h2 class="mt-6 text-[clamp(2.1rem,5vw,3.4rem)] text-ivory">
+            Six pillars, six atmospheres
+          </h2>
+          <p class="mt-5 text-ivory/75">
+            Each pillar is an expandable container — nested topics, guides, techniques,
+            research notes and personal experiments will accumulate inside them for years
+            to come. Each one also inhabits its own visual world, so you always know
+            which part of the library you are standing in.
+          </p>
+        </div>
+        <p class="shrink-0 text-[0.68rem] uppercase tracking-[0.26em] text-gold/80">
+          {topicCount} topic clusters and counting
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          pillars.map((pillar) => {
+            const world = worlds[pillar.world];
+            return (
+              <a
+                href={`/${pillar.id}/`}
+                class="group relative flex flex-col overflow-hidden rounded-sm border border-gold/20 bg-gradient-to-b from-charcoal/90 to-ink/95 p-7 no-underline transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_30px_60px_-40px_rgb(0_0_0/0.95)]"
+                style={`--card-accent:${world.swatch[1]}`}
+              >
+                <span
+                  class="absolute inset-x-0 top-0 h-1 origin-left scale-x-[0.18] transition-transform duration-500 group-hover:scale-x-100"
+                  style={`background:linear-gradient(90deg, ${world.swatch[1]}, ${world.swatch[2]})`}
+                  aria-hidden="true"
+                />
+
+                <div class="flex items-start justify-between gap-4">
+                  <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/35 bg-ink/70 text-gold-bright transition-colors duration-300 group-hover:bg-gold/15">
+                    <SiteIcon name={pillar.icon} size={22} />
+                  </span>
+                  <span class="font-display text-3xl font-semibold text-gold/45 transition-colors group-hover:text-gold-bright">
+                    {pillar.roman}
+                  </span>
+                </div>
+
+                <h3 class="mt-6 text-[1.65rem] text-ivory">{pillar.name}</h3>
+                <p class="mt-2 text-[0.92rem] leading-relaxed text-ivory/70">
+                  {pillar.tagline}
+                </p>
+
+                <div class="rule-gold my-5" />
+
+                <ul class="flex flex-wrap gap-2">
+                  {pillar.topics.slice(0, 3).map((topic) => (
+                    <li class="chip">{topic.title}</li>
+                  ))}
+                  {pillar.topics.length > 3 && (
+                    <li class="chip">+{pillar.topics.length - 3} more</li>
+                  )}
+                </ul>
+
+                <div class="mt-auto flex items-center justify-between pt-7">
+                  <span class="text-[0.66rem] uppercase tracking-[0.22em] text-ivory/50">
+                    {world.label}
+                  </span>
+                  <span class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-bright opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    Enter →
+                  </span>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SPOTLIGHT — World E: The Botanical Apothecary (True Medicine)
+  ============================================================ -->
+  <section
+    id="true-medicine"
+    class="world world--botanical grain relative scroll-mt-24 overflow-hidden"
+  >
+    <WorldBackdrop world="botanical" />
+    <div class="shell relative z-10 grid gap-12 py-20 md:py-28 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+      <div>
+        <p class="eyebrow" style="color:#4f6046">Pillar V · The Botanical Apothecary</p>
+        <h2 class="mt-6 text-[clamp(2.1rem,5vw,3.4rem)] text-[#26301f]">True Medicine</h2>
+        <p class="mt-5 max-w-xl text-[1.03rem] leading-relaxed text-[#3a452f]">
+          Healing roots, herbs and oils — the old knowledge worth studying, and the new
+          questions worth asking. Alongside the apothecary shelf sits Dave’s ongoing
+          research into healing frequencies, including Rife-style protocols.
+        </p>
+
+        <div class="mt-6 max-w-xl rounded-sm border border-[#65765a]/45 bg-white/45 p-5">
+          <p class="text-[0.88rem] leading-relaxed text-[#3a452f]">
+            <strong class="text-[#26301f]">An editorial promise:</strong> tradition,
+            personal experience and established science are always labelled separately.
+            Frequency work is shared here as open inquiry — never as settled medical
+            fact, and never as a substitute for professional care.
+          </p>
+        </div>
+
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a class="btn btn--solid" href="/true-medicine/">Enter True Medicine →</a>
+          <a class="btn btn--ghost-dark" href="#pillars">See all six pillars</a>
+        </div>
+      </div>
+
+      <div class="panel--paper rounded-sm p-7 md:p-8">
+        <p class="text-[0.62rem] font-semibold uppercase tracking-[0.3em] text-[#7a5a26]">
+          Shelves in this pillar
+        </p>
+        <ul class="mt-5 divide-y divide-[#7a6437]/25">
+          {
+            pillars
+              .find((p) => p.id === 'true-medicine')!
+              .topics.map((topic) => (
+                <li class="flex items-baseline justify-between gap-4 py-3.5">
+                  <span class="font-display text-[1.28rem] text-[#2a2418]">
+                    {topic.title}
+                  </span>
+                  <span class="text-right text-[0.78rem] leading-snug text-[#5b513c]">
+                    {topic.blurb.split(' — ')[0]}
+                  </span>
+                </li>
+              ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SPOTLIGHT — World D: The Sacred Gallery (Faith)
+  ============================================================ -->
+  <section id="faith" class="world world--sacred relative scroll-mt-24 overflow-hidden">
+    <WorldBackdrop world="sacred" />
+    <div class="shell relative z-10 py-20 text-center md:py-28">
+      <div class="mx-auto max-w-3xl">
+        <p class="eyebrow justify-center">Pillar VI · The Sacred Gallery</p>
+        <h2 class="mt-6 text-[clamp(2.1rem,5vw,3.6rem)] text-ivory">
+          Faith &amp; the Inner Life
+        </h2>
+        <p class="mt-6 text-[1.05rem] leading-relaxed text-ivory/85">
+          Christian faith is not a sidebar of this library — it is the ground beneath it.
+          Here are written the convictions that guide the work: God the Father, Yahweh,
+          Jesus Christ, the Holy Spirit, prayer, Scripture and the resilience that carries
+          a person through trial.
+        </p>
+
+        <div class="mx-auto mt-9 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+          {
+            pillars
+              .find((p) => p.id === 'faith')!
+              .topics.slice(0, 3)
+              .map((topic) => (
+                <span class="chip justify-center">{topic.title}</span>
+              ))
+          }
+        </div>
+
+        <div class="mt-10 flex justify-center">
+          <a class="btn btn--solid" href="/faith/">Enter the Sacred Gallery →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ETHER NOTE — World C: The Ether & the Unseen
+  ============================================================ -->
+  <section class="world world--ether relative overflow-hidden">
+    <WorldBackdrop world="ether" />
+    <div class="shell relative z-10 grid gap-10 py-20 md:py-24 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+      <div>
+        <p class="eyebrow" style="color:#9aa6c0">World C · The Ether &amp; the Unseen</p>
+        <h2 class="mt-6 text-[clamp(1.9rem,4vw,2.9rem)] text-ivory">
+          A room for questions that are not settled
+        </h2>
+      </div>
+      <div class="panel rounded-sm p-7 md:p-9">
+        <p class="text-[1.02rem] leading-relaxed text-ivory/85">
+          Not everything written here will be proven, and not everything proven will be
+          comfortable. The contemplative pages — on the ether, on subtle environments, on
+          influences that may lie beyond ordinary perception — are kept deliberately apart
+          from measured findings.
+        </p>
+        <p class="mt-5 text-[0.95rem] leading-relaxed text-ivory/70">
+          Personal interpretation is labelled as interpretation. Philosophical and
+          spiritual belief is labelled as belief. Established scientific findings are
+          cited as findings. A reader deserves to always know which one they are reading.
+        </p>
+        <p class="mt-6 text-[0.66rem] uppercase tracking-[0.26em] text-gold/85">
+          Standing essay · in preparation
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       METHOD — World F: The Modern Human Environment
+  ============================================================ -->
+  <section id="method" class="world world--modern relative scroll-mt-24 overflow-hidden">
+    <WorldBackdrop world="modern" />
+    <div class="shell relative z-10 py-20 md:py-28">
+      <div class="max-w-2xl">
+        <p class="eyebrow" style="color:#c98d63">How the library grows</p>
+        <h2 class="mt-6 text-[clamp(2.1rem,5vw,3.2rem)] text-ivory">
+          From field note to permanent entry
+        </h2>
+        <p class="mt-5 text-ivory/75">
+          Nothing here arrives fully formed. Every published page began as a scribble in a
+          notebook, a meter reading, a failed attempt or a passage underlined twice.
+        </p>
+      </div>
+
+      <ol class="mt-14 grid gap-6 md:grid-cols-3">
+        {
+          method.map((item) => (
+            <li class="panel rounded-sm p-7">
+              <div class="flex items-center justify-between">
+                <span class="font-display text-4xl font-semibold text-gold-bright">
+                  {item.step}
+                </span>
+                <span class="text-[#c98d63]">
+                  <SiteIcon name={item.icon} size={22} />
+                </span>
+              </div>
+              <h3 class="mt-5 text-[1.5rem] text-ivory">{item.title}</h3>
+              <div class="rule-gold my-4" />
+              <p class="text-[0.94rem] leading-relaxed text-ivory/70">{item.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CLOSING
+  ============================================================ -->
+  <section class="relative bg-ink py-20 md:py-24">
+    <div class="shell-narrow text-center">
+      <BrandMark size={54} class="mx-auto" />
+      <h2 class="mt-7 text-[clamp(1.9rem,4.5vw,3rem)] text-ivory">
+        Begin where you live
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-ivory/75">
+        The house is the first instrument most of us can actually tune. Start there, or
+        wander the full index of worlds.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a class="btn btn--solid" href="/house/">Enter The House →</a>
+        <a class="btn btn--ghost" href="#pillars">Browse the index</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

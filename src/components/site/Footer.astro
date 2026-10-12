@@ -1,0 +1,78 @@
+---
+import BrandMark from './BrandMark.astro';
+import SiteIcon from './SiteIcon.astro';
+import { site } from '../../config/site';
+import { pillars } from '../../config/pillars';
+import { worldList } from '../../config/worlds';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-0 border-t border-gold/25 bg-ink/95">
+  <div class="shell py-14 md:py-18">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3">
+          <BrandMark size={40} />
+          <span class="font-display text-xl font-semibold text-ivory">
+            Life Hacks <span class="text-gold-bright">by Dave</span>
+          </span>
+        </div>
+        <p class="mt-5 max-w-md text-sm leading-relaxed text-ivory/70">
+          {site.mission}
+        </p>
+        <p class="mt-4 text-[0.7rem] uppercase tracking-[0.24em] text-gold/80">
+          Founded &amp; written by {site.founder}
+        </p>
+      </div>
+
+      <nav aria-label="Pillars">
+        <h2 class="eyebrow eyebrow--plain text-[0.62rem]">The Six Pillars</h2>
+        <ul class="mt-4 space-y-2.5">
+          {
+            pillars.map((pillar) => (
+              <li>
+                <a
+                  href={`/${pillar.id}/`}
+                  class="flex items-center gap-2.5 text-sm text-ivory/75 no-underline transition-colors hover:text-gold-bright"
+                >
+                  <SiteIcon name={pillar.icon} size={15} class="text-gold/75" />
+                  <span>{pillar.shortName}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="eyebrow eyebrow--plain text-[0.62rem]">Worlds of the Library</h2>
+        <ul class="mt-4 space-y-2.5">
+          {
+            worldList.map((world) => (
+              <li class="flex items-center gap-2.5 text-sm text-ivory/70">
+                <span
+                  class="h-2.5 w-2.5 shrink-0 rounded-full border border-ivory/25"
+                  style={`background:${world.swatch[1]}`}
+                  aria-hidden="true"
+                />
+                <span>{world.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule-gold mt-12"></div>
+
+    <div class="mt-6 flex flex-col gap-3 text-[0.7rem] tracking-wide text-ivory/50 md:flex-row md:items-center md:justify-between">
+      <p>
+        &copy; {year} {site.name}. Written as field notes and shared in good faith.
+      </p>
+      <p class="max-w-xl md:text-right">
+        Nothing here is medical, legal or engineering advice — verify everything for yourself.
+      </p>
+    </div>
+  </div>
+</footer>

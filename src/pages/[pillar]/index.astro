@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteIcon from '../../components/site/SiteIcon.astro';
+import { pillars, type Pillar } from '../../config/pillars';
+import { worlds } from '../../config/worlds';
+
+export function getStaticPaths() {
+  return pillars.map((pillar) => ({ params: { pillar: pillar.id }, props: { pillar } }));
+}
+
+interface Props {
+  pillar: Pillar;
+}
+
+const { pillar } = Astro.props;
+const world = worlds[pillar.world];
+const siblings = pillars.filter((p) => p.id !== pillar.id);
+const isLight = pillar.world === 'atlas' || pillar.world === 'botanical';
+const muted = isLight ? 'text-[#4a4130]' : 'text-ivory/75';
+const heading = isLight ? 'text-[#2a2418]' : 'text-ivory';
+const accent = isLight ? 'color:#7a5a26' : '';
+---
+
+<BaseLayout
+  world={pillar.world}
+  title={pillar.name}
+  description={pillar.purpose}
+  canonicalPath={`/${pillar.id}/`}
+>
+  <section class="relative overflow-hidden">
+    <div class="shell py-16 md:py-24">
+      <nav aria-label="Breadcrumb">
+        <ol class="flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em]">
+          <li><a href="/" class="link-quiet">Atlas</a></li>
+          <li aria-hidden="true" class={isLight ? 'text-[#7a6437]/70' : 'text-gold/60'}>/</li>
+          <li class={isLight ? 'text-[#4a4130]' : 'text-ivory/70'} aria-current="page">
+            {pillar.shortName}
+          </li>
+        </ol>
+      </nav>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <span
+          class="inline-flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 bg-ink/60 text-gold-bright"
+        >
+          <SiteIcon name={pillar.icon} size={26} />
+        </span>
+        <span class="eyebrow" style={accent}>Pillar {pillar.roman} · {world.label}</span>
+      </div>
+
+      <h1 class={`mt-7 max-w-3xl text-[clamp(2.4rem,7vw,4.6rem)] ${heading}`}>
+        {pillar.name}
+      </h1>
+
+      <div class="rule-gold mt-7 max-w-lg"></div>
+
+      <p class={`mt-7 max-w-2xl text-[1.08rem] leading-relaxed ${muted}`}>
+        {pillar.purpose}
+      </p>
+    </div>
+  </section>
+
+  <section class="relative pb-20 md:pb-28">
+    <div class="shell">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 class={`text-[clamp(1.6rem,3.5vw,2.3rem)] ${heading}`}>
+          Topic clusters inside this pillar
+        </h2>
+        <p class="text-[0.66rem] uppercase tracking-[0.24em]" style={accent || undefined}>
+          {pillar.topics.length} clusters · entries added over time
+        </p>
+      </div>
+
+      <ul class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {
+          pillar.topics.map((topic, index) => (
+            <li
+              class:list={[
+                'rounded-sm border p-6 transition-colors',
+                isLight
+                  ? 'border-[#7a6437]/30 bg-white/45 hover:border-[#7a6437]/60'
+                  : 'border-gold/20 bg-charcoal/70 hover:border-gold/50',
+              ]}
+            >
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class={`text-[1.4rem] ${heading}`}>{topic.title}</h3>
+                <span
+                  class:list={[
+                    'font-display text-sm',
+                    isLight ? 'text-[#7a6437]/70' : 'text-gold/60',
+                  ]}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+              </div>
+              <p class={`mt-3 text-[0.93rem] leading-relaxed ${muted}`}>{topic.blurb}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p
+        class:list={[
+          'mt-8 text-[0.82rem]',
+          isLight ? 'text-[#5b513c]' : 'text-ivory/55',
+        ]}
+      >
+        Individual topic pages and their articles are added with the content layer — the
+        clusters above are the shelves they will fill.
+      </p>
+    </div>
+  </section>
+
+  <section
+    class:list={[
+      'relative overflow-hidden border-t',
+      isLight ? 'border-[#7a6437]/30' : 'border-gold/25',
+    ]}
+  >
+    <div class="shell py-16">
+      <h2 class={`text-[clamp(1.4rem,3vw,1.9rem)] ${heading}`}>Continue through the library</h2>
+      <ul class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {
+          siblings.map((sibling) => (
+            <li>
+              <a
+                href={`/${sibling.id}/`}
+                class:list={[
+                  'group flex h-full flex-col gap-2 rounded-sm border p-5 no-underline transition-all duration-300 hover:-translate-y-0.5',
+                  isLight
+                    ? 'border-[#7a6437]/30 bg-white/40 hover:border-[#7a6437]/70'
+                    : 'border-gold/20 bg-charcoal/60 hover:border-gold/55',
+                ]}
+              >
+                <span class="flex items-center gap-2">
+                  <span class="text-gold-bright">
+                    <SiteIcon name={sibling.icon} size={16} />
+                  </span>
+                  <span class="text-[0.6rem] uppercase tracking-[0.24em] text-gold/80">
+                    {sibling.roman}
+                  </span>
+                </span>
+                <span class={`font-display text-[1.15rem] ${heading}`}>{sibling.shortName}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

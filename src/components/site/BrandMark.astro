@@ -1,0 +1,46 @@
+---
+/** Original monogram: a compass star inside an archival roundel. */
+interface Props {
+  size?: number;
+  class?: string;
+}
+
+const { size = 38, class: className = '' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 64 64"
+  width={size}
+  height={size}
+  class={className}
+  role="img"
+  aria-label="Life Hacks by Dave"
+>
+  <defs>
+    <linearGradient id="lhd-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e4cf9c"></stop>
+      <stop offset="0.5" stop-color="#b79a60"></stop>
+      <stop offset="1" stop-color="#8a6a3a"></stop>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="29.5" fill="none" stroke="url(#lhd-gold)" stroke-width="1.4"></circle>
+  <circle
+    cx="32"
+    cy="32"
+    r="24"
+    fill="none"
+    stroke="url(#lhd-gold)"
+    stroke-width="0.7"
+    opacity="0.65"></circle>
+  <path
+    d="M32 6 L35.6 26.4 L58 32 L35.6 37.6 L32 58 L28.4 37.6 L6 32 L28.4 26.4 Z"
+    fill="url(#lhd-gold)"
+    opacity="0.94"></path>
+  <path
+    d="M44.5 19.5 L36 28 M19.5 44.5 L28 36 M44.5 44.5 L36 36 M19.5 19.5 L28 28"
+    stroke="url(#lhd-gold)"
+    stroke-width="1"
+    opacity="0.7"></path>
+  <circle cx="32" cy="32" r="3.4" fill="#101622" stroke="url(#lhd-gold)" stroke-width="1.2"
+  ></circle>
+</svg>

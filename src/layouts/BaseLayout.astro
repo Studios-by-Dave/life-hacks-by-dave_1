@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+
+import '@fontsource/cormorant-garamond/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import '@fontsource/cormorant-garamond/latin-600.css';
+import '@fontsource/cormorant-garamond/latin-700.css';
+import '@fontsource/cormorant-garamond/latin-400-italic.css';
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource/libre-baskerville/latin-400.css';
+import '@fontsource/libre-baskerville/latin-400-italic.css';
+import '@fontsource/libre-baskerville/latin-700.css';
+
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+import WorldBackdrop from '../components/art/WorldBackdrop.astro';
+import { site } from '../config/site';
+import { worlds, type WorldKey } from '../config/worlds';
+
+interface Props {
+  title?: string;
+  description?: string;
+  world?: WorldKey;
+  /** Optional canonical path override (defaults to the current path). */
+  canonicalPath?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = site.description,
+  world = 'celestial',
+  canonicalPath,
+  noindex = false,
+  structuredData,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.shortName}`;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, site.domain);
+const worldMeta = worlds[world];
+
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  description: site.description,
+  url: site.domain,
+  inLanguage: site.language,
+  publisher: {
+    '@type': 'Person',
+    name: site.founder,
+    url: site.domain,
+  },
+};
+---
+
+<!doctype html>
+<html lang={site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={site.founder} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={site.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <meta name="theme-color" content="#101622" />
+    <meta name="color-scheme" content="dark" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(webSiteSchema)}
+      is:inline
+    />
+    {
+      structuredData && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+          is:inline
+        />
+      )
+    }
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+
+    <div
+      class={`world world--${world}`}
+      data-world={world}
+      data-world-label={worldMeta.label}
+    >
+      <WorldBackdrop world={world} />
+      <main id="main" class="relative z-10">
+        <slot />
+      </main>
+    </div>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,91 @@
+---
+import BrandMark from './BrandMark.astro';
+import { site } from '../../config/site';
+
+const path = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'The Atlas' },
+  { href: '/#pillars', label: 'Six Pillars' },
+  { href: '/#mission', label: 'Mission' },
+  { href: '/#method', label: 'How It Grows' },
+];
+
+const isActive = (href: string) => href === '/' && (path === '/' || path === '');
+---
+
+<header class="site-header sticky top-0 z-50">
+  <div class="shell flex items-center justify-between gap-6 py-3.5">
+    <a href="/" class="group flex items-center gap-3 no-underline" aria-label={`${site.name} — home`}>
+      <BrandMark size={36} class="shrink-0 transition-transform duration-300 group-hover:rotate-45" />
+      <span class="leading-none">
+        <span class="block font-display text-[1.12rem] font-semibold tracking-wide text-ivory">
+          Life Hacks <span class="text-gold-bright">by Dave</span>
+        </span>
+        <span class="mt-1 hidden text-[0.58rem] font-medium uppercase tracking-[0.34em] text-ivory/55 sm:block">
+          A Living Library
+        </span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-7 md:flex" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'text-[0.72rem] font-semibold uppercase tracking-[0.2em] no-underline transition-colors',
+              isActive(link.href)
+                ? 'text-gold-bright'
+                : 'text-ivory/75 hover:text-gold-bright',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <details class="relative md:hidden">
+      <summary
+        class="flex cursor-pointer list-none items-center gap-2 rounded-sm border border-gold/40 px-3 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-ivory/85 [&::-webkit-details-marker]:hidden"
+      >
+        <span aria-hidden="true" class="flex flex-col gap-[3px]">
+          <span class="block h-px w-4 bg-gold"></span>
+          <span class="block h-px w-4 bg-gold"></span>
+          <span class="block h-px w-4 bg-gold"></span>
+        </span>
+        Index
+      </summary>
+      <nav
+        class="panel absolute right-0 mt-2 flex w-56 flex-col gap-1 p-3"
+        aria-label="Primary (mobile)"
+      >
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class="rounded-sm px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] no-underline text-ivory/80 hover:bg-gold/15 hover:text-gold-bright"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-gold/35 to-transparent"></div>
+</header>
+
+<style>
+  .site-header {
+    background: color-mix(in srgb, var(--color-ink) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

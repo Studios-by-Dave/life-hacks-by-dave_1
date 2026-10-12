@@ -13,7 +13,6 @@ import '@fontsource/libre-baskerville/latin-700.css';
 
 import Header from '../components/site/Header.astro';
 import Footer from '../components/site/Footer.astro';
-import WorldBackdrop from '../components/art/WorldBackdrop.astro';
 import { site } from '../config/site';
 import { worlds, type WorldKey } from '../config/worlds';
 
@@ -111,7 +110,6 @@ const webSiteSchema = {
       data-world={world}
       data-world-label={worldMeta.label}
     >
-      <WorldBackdrop world={world} />
       <main id="main" class="relative z-10">
         <slot />
       </main>

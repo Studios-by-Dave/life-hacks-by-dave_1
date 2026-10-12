@@ -289,9 +289,51 @@
     inset: 0;
   }
 
+  /* Photographic backdrop (source files live in /assets, optimized by Astro) */
+  .world__photo {
+    position: absolute;
+    inset: 0;
+  }
+
+  .world__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .world__scrim {
+    position: absolute;
+    inset: 0;
+    /* Inherited from the nearest .world--* ancestor, so a page-level world
+       wrapper can never override the section that actually owns the art. */
+    background: var(--world-scrim, transparent);
+  }
+
+  .world__scrim::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  /* When photography carries the atmosphere, quiet the engraving layer */
+  .world__art--photo > svg {
+    opacity: 0.55;
+  }
+
   /* A — The Ancient Atlas */
   .world--atlas {
     --world-accent: #8a6a3a;
+    --world-scrim: linear-gradient(
+      115deg,
+      rgb(244 239 224 / 0.96) 0%,
+      rgb(240 232 214 / 0.9) 45%,
+      rgb(234 224 202 / 0.62) 75%,
+      rgb(228 216 190 / 0.38) 100%
+    );
+    --world-scrim-veil: rgb(245 240 227 / 0.45);
     background:
       radial-gradient(120% 80% at 15% 0%, rgb(255 252 243 / 0.85), transparent 60%),
       linear-gradient(175deg, #e9dfc8 0%, #ddd0b3 55%, #cfbf9d 100%);
@@ -301,6 +343,15 @@
   /* B — The Celestial Observatory */
   .world--celestial {
     --world-accent: #b79a60;
+    --world-scrim:
+      linear-gradient(
+        100deg,
+        rgb(10 15 28 / 0.95) 0%,
+        rgb(12 18 32 / 0.84) 45%,
+        rgb(13 20 36 / 0.66) 100%
+      ),
+      linear-gradient(180deg, rgb(16 22 34 / 0.35), rgb(11 16 27 / 0.78));
+    --world-scrim-veil: rgb(10 14 24 / 0.32);
     background:
       radial-gradient(90% 70% at 78% -10%, #1d2a4a 0%, transparent 58%),
       radial-gradient(70% 60% at 8% 110%, #17203a 0%, transparent 60%),
@@ -311,6 +362,10 @@
   /* C — The Ether and the Unseen */
   .world--ether {
     --world-accent: #9aa6c0;
+    --world-scrim:
+      radial-gradient(60% 45% at 20% 20%, rgb(72 66 120 / 0.5), transparent 70%),
+      linear-gradient(180deg, rgb(18 20 42 / 0.76), rgb(22 26 46 / 0.9));
+    --world-scrim-veil: rgb(10 14 24 / 0.32);
     background:
       radial-gradient(60% 45% at 20% 15%, rgb(72 66 120 / 0.55), transparent 70%),
       radial-gradient(55% 45% at 82% 30%, rgb(150 130 80 / 0.28), transparent 70%),
@@ -322,6 +377,10 @@
   /* D — The Sacred Gallery */
   .world--sacred {
     --world-accent: #b79a60;
+    --world-scrim:
+      radial-gradient(70% 50% at 50% 0%, rgb(120 150 205 / 0.3), transparent 65%),
+      linear-gradient(180deg, rgb(22 41 76 / 0.74), rgb(14 26 50 / 0.9));
+    --world-scrim-veil: rgb(10 14 24 / 0.32);
     background:
       radial-gradient(70% 50% at 50% -5%, rgb(120 150 205 / 0.32), transparent 65%),
       linear-gradient(180deg, #16294c 0%, #1a2f57 38%, #101c36 100%);
@@ -331,6 +390,14 @@
   /* E — The Botanical Apothecary */
   .world--botanical {
     --world-accent: #65765a;
+    --world-scrim: linear-gradient(
+      120deg,
+      rgb(243 237 222 / 0.94) 0%,
+      rgb(238 231 213 / 0.88) 45%,
+      rgb(232 224 204 / 0.66) 78%,
+      rgb(226 218 197 / 0.46) 100%
+    );
+    --world-scrim-veil: rgb(245 240 227 / 0.45);
     background:
       radial-gradient(100% 70% at 80% 0%, rgb(214 222 199 / 0.7), transparent 62%),
       linear-gradient(178deg, #efe8d6 0%, #e6dfc8 50%, #dbd4ba 100%);
@@ -340,10 +407,19 @@
   /* F — The Modern Human Environment */
   .world--modern {
     --world-accent: #a86b45;
+    --world-scrim: linear-gradient(180deg, rgb(18 21 26 / 0.84), rgb(20 23 28 / 0.92));
+    --world-scrim-veil: rgb(10 14 24 / 0.32);
     background:
       radial-gradient(85% 60% at 85% 0%, rgb(70 60 52 / 0.5), transparent 60%),
       linear-gradient(180deg, #1a1e24 0%, #1c2028 55%, #14171c 100%);
     color: var(--color-ivory);
+  }
+
+  /* Small screens: text runs full width over the art, so veil a little harder */
+  @media (max-width: 640px) {
+    .world__scrim::after {
+      background: var(--world-scrim-veil, rgb(10 14 24 / 0.32));
+    }
   }
 }
 

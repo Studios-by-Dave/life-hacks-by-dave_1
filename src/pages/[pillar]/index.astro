@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteIcon from '../../components/site/SiteIcon.astro';
+import WorldBackdrop from '../../components/art/WorldBackdrop.astro';
 import { pillars, type Pillar } from '../../config/pillars';
 import { worlds } from '../../config/worlds';
 
@@ -27,11 +28,24 @@ const accent = isLight ? 'color:#7a5a26' : '';
   description={pillar.purpose}
   canonicalPath={`/${pillar.id}/`}
 >
-  <section class="relative overflow-hidden">
-    <div class="shell py-16 md:py-24">
+  <section class={`world world--${pillar.world} relative overflow-hidden`}>
+    <WorldBackdrop world={pillar.world} eager />
+    <div class="shell relative z-10 py-16 md:py-24">
       <nav aria-label="Breadcrumb">
         <ol class="flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em]">
-          <li><a href="/" class="link-quiet">Atlas</a></li>
+          <li>
+            <a
+              href="/"
+              class:list={[
+                'transition-colors',
+                isLight
+                  ? 'text-[#5b513c] hover:text-[#2a2418]'
+                  : 'text-ivory/80 hover:text-gold-bright',
+              ]}
+            >
+              Atlas
+            </a>
+          </li>
           <li aria-hidden="true" class={isLight ? 'text-[#7a6437]/70' : 'text-gold/60'}>/</li>
           <li class={isLight ? 'text-[#4a4130]' : 'text-ivory/70'} aria-current="page">
             {pillar.shortName}

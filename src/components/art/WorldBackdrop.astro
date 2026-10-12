@@ -3,18 +3,51 @@
  * Signature artwork for each world.
  *
  * Decorative only: `aria-hidden`, pointer-inert and always layered behind
- * content by `.world__art { z-index: -1 }`. Artwork is original SVG so the
- * page ships no large textures and no third-party imagery.
+ * content by `.world__art { z-index: -1 }`. Each world pairs a photographic
+ * backdrop (from /assets, optimized by Astro into WebP) with an engraving
+ * layer of original SVG, plus a scrim that guarantees text contrast.
  */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import type { WorldKey } from '../../config/worlds';
+
+import mapsArt from '../../../assets/life-hacks-maps.jpg';
+import spaceArt from '../../../assets/life-hacks-space.jpg';
+import floodArt from '../../../assets/life-hacks-flood.jpg';
+import heavenArt from '../../../assets/life-hacks-heaven.jpg';
+import americaArt from '../../../assets/life-hacks-america.jpg';
+import technologyArt from '../../../assets/life-hacks-technology.jpg';
+
+/** world → photographic backdrop. Swap entries here to re-hang the gallery. */
+const photos: Partial<Record<WorldKey, ImageMetadata>> = {
+  atlas: mapsArt,
+  celestial: spaceArt,
+  ether: floodArt,
+  sacred: heavenArt,
+  botanical: americaArt,
+  modern: technologyArt,
+};
+
+/** Alt text is empty: every backdrop is decorative and hidden from AT. */
+const photoAlt: Partial<Record<WorldKey, string>> = {
+  atlas: '',
+  celestial: '',
+  ether: '',
+  sacred: '',
+  botanical: '',
+  modern: '',
+};
 
 interface Props {
   world: WorldKey;
   class?: string;
+  /** Eager-load only for above-the-fold art (the hero). */
+  eager?: boolean;
 }
 
-const { world, class: className = '' } = Astro.props;
+const { world, class: className = '', eager = false } = Astro.props;
 const uid = `${world}-${Math.random().toString(36).slice(2, 8)}`;
+const photo = photos[world];
 
 const stars = [
   [90, 120, 1.2], [180, 300, 0.9], [260, 90, 1.6], [340, 220, 0.8], [420, 150, 1.1],
@@ -33,7 +66,25 @@ const sprigs = [
 ] as const;
 ---
 
-<div class:list={['world__art', className]} aria-hidden="true">
+<div class:list={['world__art', className, photo && 'world__art--photo']} aria-hidden="true">
+  {
+    photo && (
+      <div class="world__photo">
+        <Image
+          src={photo}
+          alt={photoAlt[world] ?? ''}
+          width={photo.width}
+          height={photo.height}
+          widths={[600, 900, photo.width]}
+          sizes="100vw"
+          loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+        <div class="world__scrim" />
+      </div>
+    )
+  }
+
   {
     world === 'atlas' && (
       <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
